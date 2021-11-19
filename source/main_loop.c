@@ -11,43 +11,48 @@ void apply( uint8_t operation, char** arguments )
 			exit();
 			break;
 		case 2:
-			// create_table(); draw( table );
+			table* Table = new_table( arguments );
+			draw( Table );
+			break;
 		case 3:
-			// assign(); draw( table );
+			assign( arguments );
+			draw(  );
+			break;	
 		case 4: 
-			// del_node(); draw( table );
+			del( arguments );
+			draw(   );
+			break;
 		case 5:
-			// del_table(); draw( table );
+			done( arguments );
+			draw(   );
+			break;
 		case 6:
-			// done(); draw( table );
+			undone( arguments );
+			draw(   );
+			break;
 		case 7:
-			// undone(); draw( table );
-		case 8:
-			// rename_node(); draw( table );
-		case 9:
-			// rename_table(); draw( table );
-		case 10:
-			// 
+			rename( arguments );
+			draw(   );
+			break;
 	}
 } 
 
 void exec( uint8_t operation, char* exp )
 {
 	char arguments[ MAX_ARGS ][ MAX_ARG_LENGTH ];
+	char* token = strtok( exp, " " );
 
-	if( !( operation == ARG ) ) error();
-	else
+	size_t i = 0;
+	while( determine( token ) == ARG )
 	{
-		char* token = strtok( exp, " " );
-		while( determine( token ) == ARG )
-		{
-			strcpy( arguments[ i ], token );
-			token = strtok( NULL, " " );
-		}
+		strcpy( arguments[ i ], token );
+		token = strtok( NULL, " " );
+		++i;
 	}
 
 	apply( operation, arguments );
 {
+
 uint8_t determine ( char* operation )
 {
 	for( i = 0; i < OP_SIZE; ++i )
@@ -63,7 +68,7 @@ void parse( char* command )
 	char* exp = strtok( command, " " );
 	uint8_t operation = determine ( exp );
 
-	if( operation == ARG ) skip();
+	if( operation == ARG ) error();
 
 	exp = strtok( NULL, " " );
 	exec( operation, exp );
